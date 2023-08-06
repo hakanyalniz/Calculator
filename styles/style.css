@@ -3,7 +3,50 @@
 }
 
 body {
-  font-family: "REM", sans-serif;
+  font-family: "Roboto Mono", monospace;
   margin: 0;
   padding: 0;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.display {
+  background-color: black;
+  width: 350px;
+  color: white;
+
+  border: 1px solid;
+}
+
+.buttons {
+  display: flex;
+  width: 350px;
+
+  border: 1px solid;
+}
+
+.buttons button {
+  font-size: 25px;
+  font-family: "Roboto Mono", monospace;
+
+  border: none;
+  background: none;
+
+  height: 70px;
+  width: 70px;
+  margin: 5px;
+}
+
+.buttons button:hover {
+  background-color: rgb(231, 231, 231);
+}
+
+.operators {
+  width: auto;
 }

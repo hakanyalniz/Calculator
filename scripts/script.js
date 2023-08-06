@@ -1,4 +1,4 @@
-function add(...numberArgs) {
+function add(numberArgs) {
   let result = 0;
   for (let i = 0; i < numberArgs.length; i++) {
     if (numberArgs[i + 1] == undefined) {
@@ -9,7 +9,7 @@ function add(...numberArgs) {
   return result;
 }
 
-function subtract(...numberArgs) {
+function subtract(numberArgs) {
   let result = 0;
   for (let i = 0; i < numberArgs.length; i++) {
     if (numberArgs[i + 1] == undefined) {
@@ -21,7 +21,7 @@ function subtract(...numberArgs) {
   return result;
 }
 
-function multiply(...numberArgs) {
+function multiply(numberArgs) {
   let result = 0;
   for (let i = 0; i < numberArgs.length; i++) {
     if (numberArgs[i + 1] == undefined) {
@@ -33,7 +33,7 @@ function multiply(...numberArgs) {
   return result;
 }
 
-function divide(...numberArgs) {
+function divide(numberArgs) {
   let result = 0;
   for (let i = 0; i < numberArgs.length; i++) {
     if (numberArgs[i + 1] == undefined) {
@@ -45,14 +45,32 @@ function divide(...numberArgs) {
   return result;
 }
 
-console.log(add(1, 2)); // 3
-console.log(add(5, 10)); // 15
+function operate(...theArgs) {
+  for (const element of theArgs) {
+    if (element == "+") {
+      theArgs.pop();
+      return add(theArgs);
+    } else if (element == "-") {
+      theArgs.pop();
+      return subtract(theArgs);
+    } else if (element == "*") {
+      theArgs.pop();
+      return multiply(theArgs);
+    } else if (element == "/") {
+      theArgs.pop();
+      return divide(theArgs);
+    }
+  }
+}
 
-console.log(subtract(2, 1)); // 1
-console.log(subtract(3, 4)); // -1
+console.log(operate(1, 2, "+")); // 3
+console.log(operate(5, 10, "+")); // 15
 
-console.log(multiply(1, 2)); // 2
-console.log(multiply(3, 2)); // 6
+console.log(operate(2, 1, "-")); // 1
+console.log(operate(3, 4, "-")); // -1
 
-console.log(divide(4, 2)); // 2
-console.log(divide(2, 4)); // 0.5
+console.log(operate(1, 2, "*")); // 2
+console.log(operate(3, 2, "*")); // 6
+
+console.log(operate(4, 2, "/")); // 2
+console.log(operate(2, 4, "/")); // 0.5
