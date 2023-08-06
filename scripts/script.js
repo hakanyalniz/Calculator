@@ -63,14 +63,22 @@ function operate(...theArgs) {
   }
 }
 
-console.log(operate(1, 2, "+")); // 3
-console.log(operate(5, 10, "+")); // 15
+function writeDisplay(element) {
+  currentDisplay += element.innerHTML;
+  displayInput.innerHTML = currentDisplay;
+}
 
-console.log(operate(2, 1, "-")); // 1
-console.log(operate(3, 4, "-")); // -1
+// The display input within the p tags that is located within display div
+let displayInput = document.getElementById("display-input");
+// The current display, things will get written into it before they are written into the screen
+let currentDisplay = "";
 
-console.log(operate(1, 2, "*")); // 2
-console.log(operate(3, 2, "*")); // 6
+// References to the buttons and their event listeners
 
-console.log(operate(4, 2, "/")); // 2
-console.log(operate(2, 4, "/")); // 0.5
+let buttons = document.getElementById("buttons");
+
+buttons.addEventListener("click", function (event) {
+  if (event.target.type == "button") {
+    writeDisplay(event.target);
+  }
+});

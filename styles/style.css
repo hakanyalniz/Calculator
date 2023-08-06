@@ -17,21 +17,25 @@ body {
 }
 
 .display {
+  font-size: 25px;
+  padding: 5px;
+
   background-color: black;
   width: 350px;
+  height: 95px;
   color: white;
 
   border: 1px solid;
 }
 
-.buttons {
+#buttons {
   display: flex;
   width: 350px;
 
   border: 1px solid;
 }
 
-.buttons button {
+#buttons button {
   font-size: 25px;
   font-family: "Roboto Mono", monospace;
 
@@ -43,10 +47,6 @@ body {
   margin: 5px;
 }
 
-.buttons button:hover {
+#buttons button:hover {
   background-color: rgb(231, 231, 231);
-}
-
-.operators {
-  width: auto;
 }
