@@ -128,6 +128,10 @@ function writeDisplay(element) {
   displayInput.innerHTML = currentDisplay;
 }
 
+function writeResultToDisplay(result) {
+  displayInput.innerHTML = result;
+}
+
 // The display input within the p tags that is located within display div
 let displayInput = document.getElementById("display-input");
 // The current display, things will get written into it before they are written into the screen
@@ -138,11 +142,16 @@ let numbersInMemory = [];
 
 let buttons = document.getElementById("buttons");
 let equalsButton = document.getElementById("equals");
+let clearButton = document.getElementById("clear");
 
 // The clicked button will call writeDisplay to display it on screen and also will store it in memory
 // so that we can operate on it
 buttons.addEventListener("click", function (event) {
-  if (event.target.type == "button" && event.target.innerHTML != "=") {
+  if (
+    event.target.type == "button" &&
+    event.target.innerHTML != "=" &&
+    event.target.innerHTML != "Clear"
+  ) {
     writeDisplay(event.target);
     numbersInMemory.push(event.target.innerHTML);
   }
@@ -150,5 +159,15 @@ buttons.addEventListener("click", function (event) {
 
 // Clicking the equal will send the numbers in memory to operate
 equalsButton.addEventListener("click", function (event) {
-  console.log(operate(numbersInMemory));
+  writeResultToDisplay(operate(numbersInMemory));
+
+  // Clears out the memory and display when the equal sign is pressed.
+  numbersInMemory = [];
+  currentDisplay = "";
+});
+
+clearButton.addEventListener("click", function (event) {
+  numbersInMemory = [];
+  currentDisplay = "";
+  displayInput.innerHTML = "";
 });
