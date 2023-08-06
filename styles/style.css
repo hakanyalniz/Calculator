@@ -21,18 +21,14 @@ body {
   padding: 5px;
 
   background-color: black;
-  width: 350px;
+  width: 370px;
   height: 95px;
   color: white;
-
-  border: 1px solid;
 }
 
 #buttons {
   display: flex;
-  width: 350px;
-
-  border: 1px solid;
+  width: 370px;
 }
 
 #buttons button {
@@ -42,8 +38,10 @@ body {
   border: none;
   background: none;
 
-  height: 70px;
-  width: 70px;
+  /* padding: 70px; */
+  min-height: 70px;
+  min-width: 70px;
+
   margin: 5px;
 }
 
