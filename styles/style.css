@@ -17,13 +17,20 @@ body {
 }
 
 .display {
-  font-size: 25px;
+  display: flex;
+  font-size: 40px;
   padding: 5px;
 
   background-color: black;
   width: 370px;
   height: 95px;
   color: white;
+}
+
+#display-input {
+  margin-top: auto;
+  margin-bottom: auto;
+  overflow: hidden;
 }
 
 #buttons {
