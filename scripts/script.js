@@ -145,15 +145,17 @@ let numbersInMemory = [];
 let buttons = document.getElementById("buttons");
 let equalsButton = document.getElementById("equals");
 let clearButton = document.getElementById("clear");
+let deleteButton = document.getElementById("delete");
 
 // The clicked button will call writeDisplay to display it on screen and also will store it in memory
 // so that we can operate on it
 buttons.addEventListener("click", function (event) {
-  // Don't add the equal button and clear button to screen
+  // Don't add the equal button and clear button to screen and so on
   if (
     event.target.type == "button" &&
     event.target.innerHTML != "=" &&
-    event.target.innerHTML != "Clear"
+    event.target.innerHTML != "Clear" &&
+    event.target.innerHTML != "Delete"
   ) {
     writeDisplay(event.target);
     numbersInMemory.push(event.target.innerHTML);
@@ -173,6 +175,15 @@ clearButton.addEventListener("click", function (event) {
   numbersInMemory = [];
   currentDisplay = "";
   displayInput.innerHTML = "";
+});
+
+deleteButton.addEventListener("click", function (event) {
+  console.log(currentDisplay);
+
+  currentDisplay = currentDisplay.slice(0, -1);
+  numbersInMemory.pop();
+
+  writeResultToDisplay(currentDisplay);
 });
 
 // Create a better operate function that looks at operators in the array in order of operation, takes one on the right then the one on the left
