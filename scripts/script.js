@@ -57,6 +57,8 @@ function divide(numberArgs) {
   return result;
 }
 
+// The above are operator functions
+
 function operate(theArgs) {
   // Checks which operation to do then calls the proper operator functions with the whole array
   // Also removes operator sign from the array
@@ -147,6 +149,7 @@ let clearButton = document.getElementById("clear");
 // The clicked button will call writeDisplay to display it on screen and also will store it in memory
 // so that we can operate on it
 buttons.addEventListener("click", function (event) {
+  // Don't add the equal button and clear button to screen
   if (
     event.target.type == "button" &&
     event.target.innerHTML != "=" &&
@@ -171,3 +174,19 @@ clearButton.addEventListener("click", function (event) {
   currentDisplay = "";
   displayInput.innerHTML = "";
 });
+
+// Create a better operate function that looks at operators in the array in order of operation, takes one on the right then the one on the left
+// sends them for operation and then repeats this with the remaining numbers and operators in the array until the final result
+
+// function operate(theArgs) {
+//   // ["3", "+", "2" "*", "5"]
+//   let index;
+
+//   for (const element of theArgs) {
+//     if (element == "*") {
+//       index = theArgs.indexOf(element);
+
+//       return multiply([theArgs[index - 1], theArgs[index + 1]]);
+//     }
+//   }
+// }
