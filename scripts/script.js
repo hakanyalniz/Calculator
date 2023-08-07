@@ -142,6 +142,7 @@ function filterOperators(theArray) {
   return result;
 }
 
+// If given ["5", "5", "+" "5"], it will result in ["55", "+", "5"]
 function combineNumbers(theArray) {
   const operators = ["+", "-", "*", "/"];
 
@@ -187,7 +188,16 @@ function writeDisplay(element) {
 }
 
 function writeResultToDisplay(result) {
-  displayInput.innerHTML = result;
+  // Check if the result would give undefined, if it does then spit it back out
+  if (result == undefined) {
+    let memory = "";
+    for (let number of numbersInMemory) {
+      memory += number;
+    }
+    displayInput.innerHTML = memory;
+  } else {
+    displayInput.innerHTML = result;
+  }
 }
 
 // The display input within the p tags that is located within display div
@@ -222,9 +232,12 @@ buttons.addEventListener("click", function (event) {
 equalsButton.addEventListener("click", function (event) {
   writeResultToDisplay(operate(numbersInMemory));
 
-  // Clears out the memory and display when the equal sign is pressed.
-  numbersInMemory = [];
-  currentDisplay = "";
+  // Clears out the memory and display when the equal sign is pressed
+  // Do not clear the screen if it is undefined, so the user can change it if they want
+  if (operate(numbersInMemory) != undefined) {
+    numbersInMemory = [];
+    currentDisplay = "";
+  }
 });
 
 clearButton.addEventListener("click", function (event) {
@@ -241,6 +254,9 @@ deleteButton.addEventListener("click", function (event) {
 });
 
   // Scroll the display to the right
-displayInput.addEventListener("DOMNodeInserted", function() {
+let observer = new MutationObserver(function(mutations) {
+  // Scroll the display to the right
   displayInput.scrollLeft = displayInput.scrollWidth;
 });
+
+observer.observe(displayInput, { childList: true });
