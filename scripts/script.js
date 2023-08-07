@@ -9,6 +9,7 @@ function add(numberArgs) {
     }
     result = numberArgs[i] + numberArgs[i + 1];
   }
+
   return result;
 }
 
@@ -59,28 +60,88 @@ function divide(numberArgs) {
 
 // The above are operator functions
 
+// function operate(theArgs) {
+//   // Checks which operation to do then calls the proper operator functions with the whole array
+//   // Also removes operator sign from the array
+//   for (const element of theArgs) {
+//     if (element == "+") {
+//       //   removeElementFromArray(theArgs, "+");
+
+//       return add(theArgs);
+//     } else if (element == "-") {
+//       //   removeElementFromArray(theArgs, "-");
+
+//       return subtract(theArgs);
+//     } else if (element == "*") {
+//       //   removeElementFromArray(theArgs, "*");
+
+//       return multiply(theArgs);
+//     } else if (element == "/") {
+//       //   removeElementFromArray(theArgs, "/");
+
+//       return divide(theArgs);
+//     }
+//   }
+// }
+
+// Create a better operate function that looks at operators in the array in order of operation, takes one on the right then the one on the left
+// sends them for operation and then repeats this with the remaining numbers and operators in the array until the final result
+
 function operate(theArgs) {
-  // Checks which operation to do then calls the proper operator functions with the whole array
-  // Also removes operator sign from the array
+  if (theArgs.length == 1) {
+    return theArgs[0];
+  }
+
+  // Made a mistake here, the return above returns to the operate, which is called from below
+  // Therefore I had a mistake wherein the return value was not getting to the place it originally was called from
+  // Which ended up giving undefined
   for (const element of theArgs) {
-    if (element == "+") {
-      //   removeElementFromArray(theArgs, "+");
-
-      return add(theArgs);
-    } else if (element == "-") {
-      //   removeElementFromArray(theArgs, "-");
-
-      return subtract(theArgs);
-    } else if (element == "*") {
-      //   removeElementFromArray(theArgs, "*");
-
-      return multiply(theArgs);
+    if (element == "*") {
+      return operate(operateGetResult(element, theArgs, multiply));
     } else if (element == "/") {
-      //   removeElementFromArray(theArgs, "/");
-
-      return divide(theArgs);
+      return operate(operateGetResult(element, theArgs, divide));
+    } else if (element == "+") {
+      return operate(operateGetResult(element, theArgs, add));
+    } else if (element == "-") {
+      return operate(operateGetResult(element, theArgs, subtract));
     }
   }
+}
+
+// This used to be in operator function but it was going to repeat so I carried it over here
+// Basically if given "5 * 5 + 5" it will return "25 + 5"
+// The element below and theArgs are the same as the one in operator
+function operateGetResult(element, theArgs, currentOperation) {
+  let firstNumber = 0;
+  let secondNumber = 0;
+  let operator = "";
+
+  let index = 0;
+  let finalResult = 0;
+
+  index = theArgs.indexOf(element);
+
+  // The first number, second number so on doesn't work when for example: ["5", "5", "+", "5"]
+  // Normally it was created for ["5", "+", "5"] in mind
+  // So I need to combine them before this
+  firstNumber = theArgs[index - 1];
+  secondNumber = theArgs[index + 1];
+  operator = theArgs[index];
+
+  // Element is given here, which contains the multiplication sign, so combineNumbers, which uses that
+  // as a seperater, can still function
+  finalResult = currentOperation([
+    theArgs[index - 1],
+    element,
+    theArgs[index + 1],
+  ]);
+  // Remove the numbers and operators that we are done with and have gotten a result from
+  removeElementFromArray(theArgs, operator);
+  removeElementFromArray(theArgs, firstNumber);
+  removeElementFromArray(theArgs, secondNumber);
+  // Turn the result, which was integer back to string because the processes assumes that it is string
+  theArgs.unshift(finalResult.toString());
+  return theArgs;
 }
 
 function turnArrayToNumber(theArray) {
@@ -97,7 +158,7 @@ function turnArrayToNumber(theArray) {
 
 function combineNumbers(theArray) {
   let combined = "";
-  let newArray;
+  let newArray = [];
   // Combines all the array elements into combined
   for (let x = 0; x < theArray.length; x++) {
     combined += theArray[x];
@@ -185,19 +246,3 @@ deleteButton.addEventListener("click", function (event) {
 
   writeResultToDisplay(currentDisplay);
 });
-
-// Create a better operate function that looks at operators in the array in order of operation, takes one on the right then the one on the left
-// sends them for operation and then repeats this with the remaining numbers and operators in the array until the final result
-
-// function operate(theArgs) {
-//   // ["3", "+", "2" "*", "5"]
-//   let index;
-
-//   for (const element of theArgs) {
-//     if (element == "*") {
-//       index = theArgs.indexOf(element);
-
-//       return multiply([theArgs[index - 1], theArgs[index + 1]]);
-//     }
-//   }
-// }
