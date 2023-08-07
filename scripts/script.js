@@ -148,19 +148,23 @@ function combineNumbers(theArray) {
   const result = theArray.reduce(
     (accumulator, currentValue) => {
       if (operators.includes(currentValue)) {
-        accumulator.push(currentValue);
+        // If the current value is an operator
+        accumulator.push(currentValue); // Push it to the accumulator
       } else {
-        const last = accumulator.pop();
+        // If the current value is not an operator
+        const last = accumulator.pop(); // Pop the last element from the accumulator
         if (operators.includes(last)) {
-          accumulator.push(last);
-          accumulator.push(currentValue);
+          // If the last element is an operator
+          accumulator.push(last); // Push it back to the accumulator
+          accumulator.push(currentValue); // Push the current value to the accumulator
         } else {
-          accumulator.push(last + currentValue);
+          // If the last element is not an operator
+          accumulator.push(last + currentValue); // Concatenate the last element and the current value and push it to the accumulator
         }
       }
-      return accumulator;
+      return accumulator; // Return the updated accumulator
     },
-    [""]
+    [""] // Set the initial value of the accumulator to an array with an empty string
   );
 
   return result;
