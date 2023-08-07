@@ -1,6 +1,7 @@
 function add(numberArgs) {
   let result = 0;
-  numberArgs = combineNumbers(numberArgs);
+  // numberArgs = combineNumbers(numberArgs);
+  numberArgs = filterOperators(numberArgs);
   numberArgs = turnArrayToNumber(numberArgs);
 
   for (let i = 0; i < numberArgs.length; i++) {
@@ -15,7 +16,8 @@ function add(numberArgs) {
 
 function subtract(numberArgs) {
   let result = 0;
-  numberArgs = combineNumbers(numberArgs);
+  // numberArgs = combineNumbers(numberArgs);
+  numberArgs = filterOperators(numberArgs);
   numberArgs = turnArrayToNumber(numberArgs);
 
   for (let i = 0; i < numberArgs.length; i++) {
@@ -30,7 +32,8 @@ function subtract(numberArgs) {
 
 function multiply(numberArgs) {
   let result = 0;
-  numberArgs = combineNumbers(numberArgs);
+  // numberArgs = combineNumbers(numberArgs);
+  numberArgs = filterOperators(numberArgs);
   numberArgs = turnArrayToNumber(numberArgs);
 
   for (let i = 0; i < numberArgs.length; i++) {
@@ -45,7 +48,8 @@ function multiply(numberArgs) {
 
 function divide(numberArgs) {
   let result = 0;
-  numberArgs = combineNumbers(numberArgs);
+  // numberArgs = combineNumbers(numberArgs);
+  numberArgs = filterOperators(numberArgs);
   numberArgs = turnArrayToNumber(numberArgs);
 
   for (let i = 0; i < numberArgs.length; i++) {
@@ -59,33 +63,6 @@ function divide(numberArgs) {
 }
 
 // The above are operator functions
-
-// function operate(theArgs) {
-//   // Checks which operation to do then calls the proper operator functions with the whole array
-//   // Also removes operator sign from the array
-//   for (const element of theArgs) {
-//     if (element == "+") {
-//       //   removeElementFromArray(theArgs, "+");
-
-//       return add(theArgs);
-//     } else if (element == "-") {
-//       //   removeElementFromArray(theArgs, "-");
-
-//       return subtract(theArgs);
-//     } else if (element == "*") {
-//       //   removeElementFromArray(theArgs, "*");
-
-//       return multiply(theArgs);
-//     } else if (element == "/") {
-//       //   removeElementFromArray(theArgs, "/");
-
-//       return divide(theArgs);
-//     }
-//   }
-// }
-
-// Create a better operate function that looks at operators in the array in order of operation, takes one on the right then the one on the left
-// sends them for operation and then repeats this with the remaining numbers and operators in the array until the final result
 
 function operate(theArgs) {
   if (theArgs.length == 1) {
@@ -119,11 +96,12 @@ function operateGetResult(element, theArgs, currentOperation) {
   let index = 0;
   let finalResult = 0;
 
-  index = theArgs.indexOf(element);
-
   // The first number, second number so on doesn't work when for example: ["5", "5", "+", "5"]
   // Normally it was created for ["5", "+", "5"] in mind
   // So I need to combine them before this
+  theArgs = combineNumbers(theArgs);
+  index = theArgs.indexOf(element);
+
   firstNumber = theArgs[index - 1];
   secondNumber = theArgs[index + 1];
   operator = theArgs[index];
@@ -141,6 +119,7 @@ function operateGetResult(element, theArgs, currentOperation) {
   removeElementFromArray(theArgs, secondNumber);
   // Turn the result, which was integer back to string because the processes assumes that it is string
   theArgs.unshift(finalResult.toString());
+
   return theArgs;
 }
 
@@ -156,23 +135,35 @@ function turnArrayToNumber(theArray) {
   return theArray;
 }
 
-function combineNumbers(theArray) {
-  let combined = "";
-  let newArray = [];
-  // Combines all the array elements into combined
-  for (let x = 0; x < theArray.length; x++) {
-    combined += theArray[x];
-  }
-  // Turns combined into an array, split only one parts which can't be numbers
-  // which happened to be operators
-  // This would mean that each right and left part of the operators will be combined
-  for (const element of theArray) {
-    if (isNaN(element)) {
-      newArray = combined.split(element);
-    }
-  }
+function filterOperators(theArray) {
+  const operators = ["+", "-", "*", "/"];
 
-  return newArray;
+  const result = theArray.filter((item) => !operators.includes(item));
+  return result;
+}
+
+function combineNumbers(theArray) {
+  const operators = ["+", "-", "*", "/"];
+
+  const result = theArray.reduce(
+    (accumulator, currentValue) => {
+      if (operators.includes(currentValue)) {
+        accumulator.push(currentValue);
+      } else {
+        const last = accumulator.pop();
+        if (operators.includes(last)) {
+          accumulator.push(last);
+          accumulator.push(currentValue);
+        } else {
+          accumulator.push(last + currentValue);
+        }
+      }
+      return accumulator;
+    },
+    [""]
+  );
+
+  return result;
 }
 
 // Array pop was used before, but that only removed the last item
@@ -239,8 +230,6 @@ clearButton.addEventListener("click", function (event) {
 });
 
 deleteButton.addEventListener("click", function (event) {
-  console.log(currentDisplay);
-
   currentDisplay = currentDisplay.slice(0, -1);
   numbersInMemory.pop();
 
