@@ -33,7 +33,8 @@ body {
   margin-top: auto;
   margin-bottom: auto;
   overflow: scroll;
-  direction: rtl;
+  /* Prevents wrapping to the second line that happens when numbers and operators are used*/
+  white-space: nowrap;
 
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */

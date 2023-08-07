@@ -239,3 +239,8 @@ deleteButton.addEventListener("click", function (event) {
 
   writeResultToDisplay(currentDisplay);
 });
+
+  // Scroll the display to the right
+displayInput.addEventListener("DOMNodeInserted", function() {
+  displayInput.scrollLeft = displayInput.scrollWidth;
+});
