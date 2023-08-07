@@ -119,7 +119,7 @@ function operateGetResult(element, theArgs, currentOperation) {
   removeElementFromArray(theArgs, secondNumber);
   // Turn the result, which was integer back to string because the processes assumes that it is string
   theArgs.unshift(finalResult.toString());
-
+  
   return theArgs;
 }
 
